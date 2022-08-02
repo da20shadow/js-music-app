@@ -1,7 +1,6 @@
 body {
     background-image: url('../images/back.jpg');
     background-size: cover;
-    background-image: fixed;
 }
 
 nav,
@@ -12,9 +11,8 @@ footer {
     font-size: 16px;
     justify-content: space-around;
     align-items: center;
-    margin-top: 0;
     padding: 0 5px 0 3px;
-    margin: 0%;
+    margin: 0;
     color: white;
 }
 
@@ -69,9 +67,11 @@ nav a:hover {
     font-size: 24px;
     padding: 30px;
     margin: 10px;
+    text-align: center;
 }
 
 #welcomePage img {
+    margin: 55px 0;
     width: 40%
 }
 

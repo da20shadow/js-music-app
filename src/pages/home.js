@@ -1,5 +1,6 @@
 import {html} from '../lib.js';
 
+const main = document.querySelector('#main-content');
 const homeTemplate = () => html `
     <section id="welcomePage">
         <div id="welcome-message">
@@ -12,3 +13,7 @@ const homeTemplate = () => html `
         </div>
     </section>
 `;
+
+export const homeView = (context) => {
+    context.render(homeTemplate())
+}

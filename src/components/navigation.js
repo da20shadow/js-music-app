@@ -1,29 +1,24 @@
 import {html} from '../lib.js'
 
 const guestNavigation = html `
-    <li><a href="#">Login</a></li>
-    <li><a href="#">Register</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/register">Register</a></li>
 `;
 
 const userNavigation = html `
-    <li><a href="#">Create Album</a></li>
+    <li><a href="/create">Create Album</a></li>
     <li><a href="#">Logout</a></li>
 `;
 
-const headerTemplate = (isLogged) => html `
-    <header>
+export const navigationTemplate = (isLogged) => html `
         <nav>
             <img src="./images/headphones.png">
-            <a href="#">Home</a>
+            <a href="/">Home</a>
             <ul>
                 <!--All user-->
-                <li><a href="#">Catalog</a></li>
-                <li><a href="#">Search</a></li>
-                ${ isLogged 
-                        ? userNavigation
-                        : guestNavigation
-                }
+                <li><a href="/catalog">Catalog</a></li>
+                <li><a href="/search">Search</a></li>
+                ${ isLogged ? userNavigation : guestNavigation }
             </ul>
         </nav>
-    </header>
 `;
