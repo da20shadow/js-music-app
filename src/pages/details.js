@@ -28,3 +28,8 @@ const detailsTemplate = () => html `
         </div>
     </section>
 `;
+
+export const detailsView = (context) => {
+    console.log(context.params)
+    context.render(detailsTemplate());
+}
