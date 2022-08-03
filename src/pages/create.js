@@ -1,8 +1,9 @@
 import {html} from '../lib.js';
+import {create} from "../service/albumService.js";
 
-const createTemplate = () => html `
+const createTemplate = (createAlbum) => html `
     <section class="createPage">
-        <form>
+        <form @submit=${createAlbum}>
             <fieldset>
                 <legend>Add Album</legend>
 
@@ -34,3 +35,29 @@ const createTemplate = () => html `
         </form>
     </section>
 `;
+
+export const createView = (context) => {
+
+    const createAlbum = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const albumData = Object.fromEntries(formData);
+
+        if (invalidFields(albumData)){
+            alert('All fields are required!');
+            return;
+        }
+
+        create(albumData).then(res => {
+            context.page.redirect('/catalog');
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+    context.render(createTemplate(createAlbum));
+}
+
+const invalidFields = (albumData) => {
+    const requiredFields = ['name','imgUrl','price','releaseDate','artist','genre','description'];
+    return requiredFields.some(x => !albumData[x]);
+}
