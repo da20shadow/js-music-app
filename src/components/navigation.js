@@ -7,7 +7,7 @@ const guestNavigation = html `
 
 const userNavigation = html `
     <li><a href="/create">Create Album</a></li>
-    <li><a href="#">Logout</a></li>
+    <li><a href="/logout">Logout</a></li>
 `;
 
 export const navigationTemplate = (isLogged) => html `
