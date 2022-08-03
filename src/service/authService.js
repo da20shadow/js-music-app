@@ -1,9 +1,9 @@
 import {request} from './requester.js';
 
-const url = 'http://localhost:3030';
+const url = 'http://localhost:3030/users';
 
 export const login = (email,password) => {
-    return request(`${url}/users/login`,'POST',{email,password})
+    return request(`${url}/login`,'POST',{email,password})
         .then(user => {
             saveUser(user);
         }).catch(err => {
@@ -11,19 +11,18 @@ export const login = (email,password) => {
     })
 }
 
-export const logout = (context) => {
-    request(`${url}/users/logout`).then(res => {
-        console.log(res)
+export const logout = () => {
+    return fetch(`${url}/logout`,
+        { headers: {'X-Authorization': getUser().accessToken}})
+        .then(() => {
         clearStorage();
-        context.page.redirect('/');
-        return res.json();
     }).catch(err => {
-        console.log(err)
+        console.log('Error: ', err)
     })
 }
 
 export const register = (email, password,context) => {
-    request(`${url}/users/register`, 'POST', {email, password})
+    request(`${url}/register`, 'POST', {email, password})
         .then(user => {
             saveUser(user);
             context.page.redirect('/')
