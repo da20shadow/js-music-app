@@ -1,8 +1,9 @@
 import {html} from '../lib.js';
+import {register} from "../service/authService.js";
 
-const registrationTemplate = () => html `
+const registrationTemplate = (regHandler) => html `
     <section id="registerPage">
-        <form>
+        <form @submit=${regHandler}>
             <fieldset>
                 <legend>Register</legend>
 
@@ -24,3 +25,16 @@ const registrationTemplate = () => html `
         </form>
     </section>
 `;
+
+export const registerView = (context) => {
+    const regHandler = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const {email,password} = Object.fromEntries(formData);
+        if (password !== document.getElementById('conf-pass').value){
+            return;
+        }
+        register(email,password,context)
+    }
+    context.render(registrationTemplate(regHandler));
+}

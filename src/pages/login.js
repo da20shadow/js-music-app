@@ -1,8 +1,9 @@
 import {html} from '../lib.js';
+import {login} from "../service/authService.js";
 
-const loginTemplate = () => html`
+const loginTemplate = (loginHandler) => html`
     <section id="loginPage">
-        <form>
+        <form @submit=${loginHandler}>
             <fieldset>
                 <legend>Login</legend>
 
@@ -21,3 +22,16 @@ const loginTemplate = () => html`
         </form>
     </section>
 `;
+
+export const loginView = (context) => {
+    const loginHandler = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const {email, password} = Object.fromEntries(formData);
+        login(email, password)
+            .then(() => {
+                context.page.redirect('/')
+            })
+    }
+    context.render(loginTemplate(loginHandler));
+}
