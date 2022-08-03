@@ -1,59 +1,53 @@
 import {html} from '../lib.js';
+import {getAll} from "../service/albumService.js";
 
-const catalogTemplate = () => html `
+const catalogTemplate = (albums,isLogged) => html `
     <section id="catalogPage">
         <h1>All Albums</h1>
 
-        <div class="card-box">
-            <img src="./images/BrandiCarlile.png">
-            <div>
-                <div class="text-center">
-                    <p class="name">Name: In These Silent Days</p>
-                    <p class="artist">Artist: Brandi Carlile</p>
-                    <p class="genre">Genre: Low Country Sound Music</p>
-                    <p class="price">Price: $12.80</p>
-                    <p class="date">Release Date: October 1, 2021</p>
-                </div>
-                <div class="btn-group">
-                    <a href="#" id="details">Details</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-box">
-            <img src="./images/pinkFloyd.jpg">
-            <div>
-                <div class="text-center">
-                    <p class="name">Name: The Dark Side of the Moon</p>
-                    <p class="artist">Artist: Pink Floyd</p>
-                    <p class="genre">Genre: Rock Music</p>
-                    <p class="price">Price: $28.75</p>
-                    <p class="date">Release Date: March 1, 1973</p>
-                </div>
-                <div class="btn-group">
-                    <a href="#" id="details">Details</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-box">
-            <img src="./images/Lorde.jpg">
-            <div>
-                <div class="text-center">
-                    <p class="name">Name: Melodrama</p>
-                    <p class="artist">Artist: Lorde</p>
-                    <p class="genre">Genre: Pop Music</p>
-                    <p class="price">Price: $7.33</p>
-                    <p class="date">Release Date: June 16, 2017</p>
-                </div>
-                <div class="btn-group">
-                    <a href="#" id="details">Details</a>
-                </div>
-            </div>
-        </div>
-
-        <!--No albums in catalog-->
-        <p>No Albums in Catalog!</p>
-
+            ${ albums.length > 0 
+                    ? albums.map(a => html`
+                        <div class="card-box">
+                            <img src=${a.imgUrl} alt="image"/>
+                            <div>
+                                <div class="text-center">
+                                    <p class="name">Name: ${a.name}</p>
+                                    <p class="artist">Artist: ${a.artist}</p>
+                                    <p class="genre">Genre: ${a.genre}</p>
+                                    <p class="price">Price: $${a.price}</p>
+                                    <p class="date">Release Date: ${a.releaseDate}</p>
+                                </div>
+                                ${
+                                    isLogged 
+                                            ? html `
+                                                <div class="btn-group">
+                                                    <a href="/album/${a._id}" id="details">Details</a>
+                                                </div>`
+                                            : ''
+                                }
+                                
+                            </div>
+                        </div>
+                    `)
+                    : html `<p>No Albums in Catalog!</p>`
+        }
     </section>
 `;
+
+export const catalogView = (context) => {
+
+    let albums;
+    async function getAlbums(){
+        await getAll().then(res => {
+                console.log(res)
+                albums = res;
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+    getAlbums().then(() =>{
+        context.render(catalogTemplate(albums,context.isLogged));
+    }).catch(err => {
+        console.log(err)
+    })
+}
