@@ -31,9 +31,15 @@ export const registerView = (context) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const {email,password} = Object.fromEntries(formData);
+
         if (password !== document.getElementById('conf-pass').value){
             return;
         }
+        if (email === '' || password === ''){
+            alert('All fields are required!');
+            return;
+        }
+
         register(email,password,context)
     }
     context.render(registrationTemplate(regHandler));
