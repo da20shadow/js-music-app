@@ -6,6 +6,12 @@ export const getAll = async () => {
     return processRequest(response);
 }
 
+export const search = async (name) => {
+    const query = encodeURIComponent(`name LIKE "${name}"`);
+    const res = await fetch(`${url}?where=${query}`);
+    return processRequest(res);
+}
+
 export const getAlbumById = async (id) => {
     const response = await fetch(`${url}/${id}`,{
         headers: {'X-Authorization': getUser().accessToken}
@@ -35,6 +41,16 @@ export const edit = async (data,id) => {
         body: JSON.stringify(data)
     })
     return processRequest(response);
+}
+
+export const del = async (id) => {
+    const res = await fetch(`${url}/${id}`,{
+        method: 'DELETE',
+        headers: {
+            'X-Authorization': getUser().accessToken
+        }
+    })
+    return  processRequest(res);
 }
 
 const processRequest = async (response) => {

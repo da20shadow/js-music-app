@@ -1,5 +1,6 @@
 import {html} from '../lib.js';
 import {create} from "../service/albumService.js";
+import {invalidFields} from '../utils/validators.js';
 
 const createTemplate = (createAlbum) => html `
     <section class="createPage">
@@ -51,13 +52,8 @@ export const createView = (context) => {
         create(albumData).then(res => {
             context.page.redirect('/catalog');
         }).catch(err => {
-            console.log(err)
+            alert(err.message)
         })
     }
     context.render(createTemplate(createAlbum));
-}
-
-const invalidFields = (albumData) => {
-    const requiredFields = ['name','imgUrl','price','releaseDate','artist','genre','description'];
-    return requiredFields.some(x => !albumData[x]);
 }

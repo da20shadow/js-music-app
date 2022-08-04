@@ -1,6 +1,7 @@
 import {html} from '../lib.js';
 import {edit, getAlbumById} from "../service/albumService.js";
 import {getUser} from "../service/authService.js";
+import {invalidFields} from '../utils/validators.js';
 
 const editTemplate = (editHandler, isTheOwner, album) => html`
     <section class="editPage">
@@ -78,8 +79,4 @@ export const editView = (context) => {
         console.log(err)
     })
 
-}
-const invalidFields = (albumData) => {
-    const requiredFields = ['name','imgUrl','price','releaseDate','artist','genre','description'];
-    return requiredFields.some(x => !albumData[x]);
 }
